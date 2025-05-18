@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+    
+    <div class="mb-3">
+        {{ form_row(form.nom) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_row(form.date_de_naissance) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_row(form.biographie) }}
+    </div>
+    
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

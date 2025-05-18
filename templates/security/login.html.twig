@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% if error %}
+    <div class="alert alert-danger">
+        {% if error.messageKey == 'Invalid CSRF token.' %}
+            Jeton CSRF invalide. Veuillez réessayer.
+        {% else %}
+            Email ou mot de passe incorrect.
+        {% endif %}
+    </div>
+{% endif %}
+
+
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label">Email</label>
+                            <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">Mot de passe</label>
+                            <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="mb-3">
+                            <button class="btn btn-lg btn-primary w-100" type="submit">
+                                Se connecter
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <p>Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

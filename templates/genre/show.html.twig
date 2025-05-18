@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du genre{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">{{ genre.nom }}</h1>
+                <div>
+                    <a href="{{ path('app_genre_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                    <a href="{{ path('app_genre_edit', {'id': genre.id}) }}" class="btn btn-warning">Modifier</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th class="bg-light" style="width: 150px;">ID</th>
+                                <td>{{ genre.id }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Nom</th>
+                                <td>{{ genre.nom }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Description</th>
+                                <td style="white-space: pre-line;">{{ genre.description ?: 'Aucune description disponible' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-7">
+                    <div class="card border-info">
+                        <div class="card-header bg-info text-white">
+                            Livres dans ce genre ({{ genre.livres|length }})
+                        </div>
+                        <div class="card-body">
+                            {% if genre.livres is empty %}
+                                <p class="card-text">Aucun livre pour ce genre.</p>
+                            {% else %}
+                                <div class="list-group">
+                                    {% for livre in genre.livres %}
+                                        <a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>{{ livre.titre }}</strong><br>
+                                                <small>Auteur: {{ livre.auteur.nom }}</small>
+                                            </div>
+                                            {% if livre.disponible %}
+                                                <span class="badge bg-success">Disponible</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Indisponible</span>
+                                            {% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {{ include('genre/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

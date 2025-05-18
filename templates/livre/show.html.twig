@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du livre{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    {% for message_type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message_type == 'error' ? 'danger' : message_type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">{{ livre.titre }}</h1>
+                <div>
+                    <a href="{{ path('app_livre_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}" class="btn btn-warning">Modifier</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th class="bg-light" style="width: 150px;">ID</th>
+                                <td>{{ livre.id }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Titre</th>
+                                <td>{{ livre.titre }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">ISBN</th>
+                                <td>{{ livre.ISBN }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Disponible</th>
+                                <td>
+                                    {% if livre.disponible %}
+                                        <span class="badge bg-success">Disponible</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Indisponible</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Auteur</th>
+                                <td>
+                                    <a href="{{ path('app_auteur_show', {'id': livre.auteur.id}) }}">
+                                        {{ livre.auteur.nom }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Genre</th>
+                                <td>
+                                    <a href="{{ path('app_genre_show', {'id': livre.genre.id}) }}">
+                                        {{ livre.genre.nom }}
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {% if is_granted('ROLE_USER') and livre.disponible %}
+                        <div class="mt-3">
+                            <a href="{{ path('app_emprunt_livre', {'id': livre.id}) }}" class="btn btn-success">
+                                Emprunter ce livre
+                            </a>
+                        </div>
+                    {% elseif not is_granted('ROLE_USER') %}
+                        <div class="alert alert-info mt-3">
+                            <a href="{{ path('app_login') }}">Connectez-vous</a> pour emprunter ce livre.
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            Statut d'emprunt
+                        </div>
+                        <div class="card-body">
+                            {% if livre.emprunts is empty %}
+                                <p class="card-text">Ce livre n'a pas d'emprunts en cours.</p>
+                            {% else %}
+                                <p class="card-text">Ce livre a {{ livre.emprunts|length }} emprunt(s) en cours.</p>
+                                <ul class="list-group mt-3">
+                                    {% for emprunt in livre.emprunts %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ emprunt.utilisateur.nom }}
+                                            <span class="badge bg-info">
+                                                Retour: {{ emprunt.dateRetour|date('d/m/Y') }}
+                                            </span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {{ include('livre/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

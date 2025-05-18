@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Tableau de bord administrateur</h1>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-header">Livres</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des livres</h5>
+                    <p class="card-text">Ajouter, modifier, supprimer des livres.</p>
+                    <a href="{{ path('app_livre_index') }}" class="btn btn-light">Gérer</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-bg-success mb-3">
+                <div class="card-header">Auteurs</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des auteurs</h5>
+                    <p class="card-text">Ajouter, modifier, supprimer des auteurs.</p>
+                    <a href="{{ path('app_auteur_index') }}" class="btn btn-light">Gérer</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-bg-info mb-3">
+                <div class="card-header">Genres</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des genres</h5>
+                    <p class="card-text">Ajouter, modifier, supprimer des genres.</p>
+                    <a href="{{ path('app_genre_index') }}" class="btn btn-light">Gérer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-header">Emprunts</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des emprunts</h5>
+                    <p class="card-text">Voir et gérer les emprunts en cours.</p>
+                    <a href="#" class="btn btn-light">Gérer</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-bg-danger mb-3">
+                <div class="card-header">Utilisateurs</div>
+                <div class="card-body">
+                    <h5 class="card-title">Gestion des utilisateurs</h5>
+                    <p class="card-text">Gérer les comptes utilisateurs.</p>
+                    <a href="#" class="btn btn-light">Gérer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

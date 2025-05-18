@@ -1,36 +1,48 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ path('app_produit')}}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_main2')}}">Main2</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('app_home') }}">📚 Bibliothèque</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_livre_index') }}">Livres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_auteur_index') }}">Auteurs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_genre_index') }}">Genres</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_search') }}">Recherche avancée</a>
+                </li>
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_account') }}">Mon compte</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_admin') }}">Administration</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="d-flex">
+                {% if app.user %}
+                    <span class="navbar-text me-3">
+                        Bonjour, {{ app.user.nom }}
+                    </span>
+                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light">Déconnexion</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-light me-2">Connexion</a>
+                    <a href="{{ path('app_register') }}" class="btn btn-light">Inscription</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-  </div>
 </nav>

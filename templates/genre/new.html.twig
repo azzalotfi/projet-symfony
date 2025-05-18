@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un genre{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">Ajouter un genre</h1>
+                <a href="{{ path('app_genre_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ include('genre/_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

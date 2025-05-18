@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche de livres{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    {# Formulaire de recherche avancée #}
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h3 mb-0">Recherche avancée</h1>
+        </div>
+        <div class="card-body">
+            {{ form_start(search_form) }}
+            <div class="row">
+                {# Champ de recherche par titre #}
+                <div class="col-md-4 mb-3">
+                    {{ form_row(search_form.titre) }}
+                </div>
+                {# Liste déroulante des auteurs #}
+                <div class="col-md-4 mb-3">
+                    {{ form_row(search_form.auteur) }}
+                </div>
+                {# Liste déroulante des genres #}
+                <div class="col-md-4 mb-3">
+                    {{ form_row(search_form.genre) }}
+                </div>
+            </div>
+            <div class="text-center">
+                {{ form_row(search_form.rechercher) }}
+            </div>
+            {{ form_end(search_form) }}
+        </div>
+    </div>
+
+    {# Section des résultats de recherche #}
+    <div class="mt-4">
+        <h2 class="border-bottom pb-2 mb-3">Résultats de la recherche</h2>
+        
+        {# Message d'information sur le nombre de résultats #}
+        {% if recherche_effectuee %}
+            <div class="alert alert-info mb-3">
+                La recherche a retourné {{ livres|length }} résultat(s).
+            </div>
+        {% endif %}
+        
+        {# Affichage quand aucun livre n'est trouvé #}
+        {% if livres is empty %}
+            <div class="alert alert-warning">
+                Aucun livre trouvé.
+            </div>
+        {% else %}
+            {# Tableau des résultats de recherche #}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Genre</th>
+                            <th>Disponibilité</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for livre in livres %}
+                            <tr>
+                                <td>{{ livre.titre }}</td>
+                                <td>{{ livre.auteur.nom }}</td>
+                                <td>{{ livre.genre.nom }}</td>
+                                <td>
+                                    {% if livre.disponible %}
+                                        <span class="badge bg-success">Disponible</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Indisponible</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="btn btn-sm btn-info">Détails</a>
+                                        
+                                        {% if is_granted('ROLE_USER') and livre.disponible %}
+                                            <a href="{{ path('app_emprunt_livre', {'id': livre.id}) }}" class="btn btn-sm btn-success">Emprunter</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
